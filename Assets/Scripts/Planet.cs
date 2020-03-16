@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
+    [SerializeField] private int rotationDuration;
     private GameManager gameManager;
     private GameObject star;
     private Vector3 target;
@@ -16,12 +13,12 @@ public class Planet : MonoBehaviour
         gameManager = FindObjectOfType<GameManager>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (gameManager.TurnInProgress)
         {
-            transform.RotateAround(star.transform.position, star.transform.forward, 5 * Time.deltaTime);
+            transform.RotateAround(star.transform.position, star.transform.forward,
+                -120f / rotationDuration  * Time.deltaTime);
             transform.localRotation = Quaternion.identity;
         }
     }

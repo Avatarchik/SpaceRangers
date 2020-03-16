@@ -2,14 +2,14 @@
 
 public class Background : MonoBehaviour
 {
-    private float startPos;
-    private GameObject cam;
-
+    [SerializeField] private GameObject cam;
     [SerializeField] private float parallaxEffect;
+
+    private float startPos;
+
 
     private void Start()
     {
-        cam = Camera.main.gameObject;
         startPos = transform.position.x;
     }
 
