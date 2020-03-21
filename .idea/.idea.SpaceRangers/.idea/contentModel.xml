@@ -7,6 +7,7 @@
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
+          <e p="Asteroid.cs" t="Include" />
           <e p="Background.cs" t="Include" />
           <e p="BottomPanel.cs" t="Include" />
           <e p="CameraController.cs" t="Include" />
@@ -15,6 +16,7 @@
           </e>
           <e p="GameManager.cs" t="Include" />
           <e p="InGameMainMenu.cs" t="Include" />
+          <e p="IObjectData.cs" t="Include" />
           <e p="Item.cs" t="Include" />
           <e p="Npc.cs" t="Include" />
           <e p="ObjectInfoPanel.cs" t="Include" />

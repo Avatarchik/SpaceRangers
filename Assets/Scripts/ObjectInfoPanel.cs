@@ -7,6 +7,7 @@ public class ObjectInfoPanel : MonoBehaviour
     [SerializeField] private GameObject infoPanel;
     [SerializeField] private Text title;
     [SerializeField] private GameObject image;
+    [SerializeField] private Text data;
     private Collider2D lastTarget;
 
     private void Update()
@@ -19,6 +20,7 @@ public class ObjectInfoPanel : MonoBehaviour
         {
             infoPanel.SetActive(false);
             lastTarget = null;
+            data.text = "";
         }
 
         if (collider != null)
@@ -33,7 +35,11 @@ public class ObjectInfoPanel : MonoBehaviour
             title.text = collider.gameObject.name;
             image.GetComponent<Image>().sprite = 
                 collider.gameObject.transform.Find("Graphics").GetComponent<SpriteRenderer>().sprite;
-
+            var objectData = collider.gameObject.GetComponent<IObjectData>();
+            if (objectData != null)
+            {
+                data.text = objectData.GetObjectData();
+            }
         }
     }
 }
