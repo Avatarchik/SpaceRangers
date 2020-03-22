@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Asteroid : MonoBehaviour, IObjectData
+public class Asteroid : MonoBehaviour, IObjectData, ITakeDamage
 {
     [SerializeField] private List<GameObject> mineralPrefabs;
     private Animator animator;
@@ -12,11 +12,18 @@ public class Asteroid : MonoBehaviour, IObjectData
 
     private void Start()
     {
-        mineralsAmount = Random.Range(50, 200);
+        mineralsAmount = Random.Range(50, 150);
         animator = gameObject.transform.Find("Graphics").GetComponent<Animator>();
     }
 
-    private IEnumerator OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        var takeDamage = other.GetComponent<ITakeDamage>();
+        takeDamage?.TakeDamage(mineralsAmount);
+        StartCoroutine(DestructionProcess());
+    }
+
+    private IEnumerator DestructionProcess()
     {
         animator.SetTrigger(DestroyTrigger);
         var mineralObjectsAmount = Random.Range(2, 4);
@@ -44,5 +51,10 @@ public class Asteroid : MonoBehaviour, IObjectData
     public string GetObjectData()
     {
         return $"Contains up to {mineralsAmount} minerals";
+    }
+
+    public void TakeDamage(int damage)
+    {
+        StartCoroutine(DestructionProcess());
     }
 }

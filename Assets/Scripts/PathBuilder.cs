@@ -18,6 +18,30 @@ public class PathBuilder : MonoBehaviour
 
         dots.Clear();
     }
+    
+    public void DrawDottedLine(Vector2 start, Vector2 end, Vector2 colorChange)
+    {
+        DestroyAllDots();
+
+        Vector2 point = start;
+        Vector2 direction = (end - start).normalized;
+
+        bool oneTurnDotUsed = false;
+        while ((end - start).magnitude > (point - start).magnitude)
+        {
+            var sprite = (point - start).magnitude > (colorChange - start).magnitude ? orangeDot : greenDot;
+            if (!oneTurnDotUsed && sprite == orangeDot)
+            {
+                sprite = oneTurnDistanceDot;
+                oneTurnDotUsed = true;
+            }
+
+            var dot = GetOneDot(sprite);
+            dot.transform.position = point;
+            dots.Add(dot);
+            point += (direction * delta);
+        }
+    }
 
     private GameObject GetOneDot(Sprite sprite)
     {
@@ -28,27 +52,5 @@ public class PathBuilder : MonoBehaviour
         sr.sprite = sprite;
         sr.sortingOrder = 5;
         return obj;
-    }
-
-    public void DrawDottedLine(Vector2 start, Vector2 end, Vector2 colorChange)
-    {
-        DestroyAllDots();
-
-        Vector2 point = start;
-        Vector2 direction = (end - start).normalized;
-
-        while ((end - start).magnitude > (point - start).magnitude)
-        {
-            var sprite = (point - start).magnitude > (colorChange - start).magnitude ? orangeDot : greenDot;
-
-            var dot = GetOneDot(sprite);
-            dot.transform.position = point;
-            dots.Add(dot);
-            point += (direction * delta);
-        }
-
-        var oneTurnDot = GetOneDot(oneTurnDistanceDot);
-        oneTurnDot.transform.position = colorChange;
-        dots.Add(oneTurnDot);
     }
 }

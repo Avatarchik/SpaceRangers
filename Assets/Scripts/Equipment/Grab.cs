@@ -1,8 +1,14 @@
 ﻿namespace Equipment
 {
-    public class Grab
+    public class Grab : Item
     {
-        public int Range { get; set; }
-        public int Power { get; set; }
+        public int Range { get; }
+        public int Power { get; }
+
+        public Grab(int weight, int range, int power) : base(weight)
+        {
+            Range = range;
+            Power = power;
+        }
     }
 }

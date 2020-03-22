@@ -4,6 +4,7 @@ using Random = UnityEngine.Random;
 public class Npc : MonoBehaviour
 {
     [SerializeField] private GameObject targetPrefab;
+    [SerializeField] private NpcPath path;
 
     private GameManager gameManager;
     private Vector3 starPosition;
@@ -30,6 +31,7 @@ public class Npc : MonoBehaviour
         {
             t = 0f;
             selfPos = transform.position;
+            CalculateOneTurnDistance();
             if (transform.position == target.transform.position)
             {
                 FindTargetToMove();
@@ -70,5 +72,15 @@ public class Npc : MonoBehaviour
         var targetY = Random.Range(starPosition.x - 3f, starPosition.y + 5f);
         target.transform.position = new Vector3(targetX, targetY, 0f);
         targetPos = target.transform.position;
+    }
+
+    private void OnMouseEnter()
+    {
+        path.DrawPath(transform.position, target.transform.position, oneTurnRange);
+    }
+
+    private void OnMouseExit()
+    {
+        path.DestroyPath();
     }
 }

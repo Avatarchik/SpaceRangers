@@ -1,22 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour, IObjectData, ITakeDamage
 {
     [SerializeField] private GameObject target;
     [SerializeField] private Camera cam;
 
-    private float speed = 4f;
+    private Ship playerShip;
+    private int hitPoints;
     private GameManager gameManager;
+    private Animator shipAnimator;
 
     private float t;
 
     private Vector2 targetPos;
     private Vector2 playerPos;
-    public Vector2 oneTurnRange;
+    private static readonly int DestroyTrigger = Animator.StringToHash("Destroy");
+    public Vector2 OneTurnRange { get; private set; }
 
     private void Start()
     {
+        playerShip = GetComponentInChildren<Ship>();
+        shipAnimator = GetComponentInChildren<Animator>();
+        hitPoints = playerShip.Capacity;
         gameManager = FindObjectOfType<GameManager>();
         targetPos = transform.position;
     }
@@ -79,13 +86,37 @@ public class PlayerMovement : MonoBehaviour
             CalculateOneTurnDistance();
 
             t += Time.deltaTime / GameManager.TurnDuration;
-            transform.position = Vector3.Lerp(playerPos, oneTurnRange, t);
+            transform.position = Vector3.Lerp(playerPos, OneTurnRange, t);
         }
     }
 
     private void CalculateOneTurnDistance()
     {
         var pathDistance = Vector2.Distance(targetPos, playerPos);
-        oneTurnRange = Vector3.Lerp(playerPos, targetPos, speed / pathDistance);
+        OneTurnRange = Vector3.Lerp(playerPos, targetPos, playerShip.Speed / pathDistance);
+    }
+
+    public string GetObjectData()
+    {
+        return $"Structure: {hitPoints}/{playerShip.Capacity}\nSpeed: {playerShip.Speed}";
+    }
+
+    public void TakeDamage(int damage)
+    {
+        hitPoints -= damage;
+        if (hitPoints <= 0)
+        {
+            StartCoroutine(DestructionProcess());
+        }
+    }
+    
+    private IEnumerator DestructionProcess()
+    {
+        shipAnimator.SetTrigger(DestroyTrigger);
+        while (!shipAnimator.GetCurrentAnimatorStateInfo(0).IsName("ExplosionFinished"))
+        {
+            yield return null;
+        }
+        Destroy(gameObject);
     }
 }

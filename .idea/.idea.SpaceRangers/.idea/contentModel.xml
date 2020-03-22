@@ -13,17 +13,23 @@
           <e p="CameraController.cs" t="Include" />
           <e p="Equipment" t="Include">
             <e p="Grab.cs" t="Include" />
+            <e p="Item.cs" t="Include" />
+            <e p="Weapon.cs" t="Include" />
           </e>
           <e p="GameManager.cs" t="Include" />
           <e p="InGameMainMenu.cs" t="Include" />
           <e p="IObjectData.cs" t="Include" />
+          <e p="ITakeDamage.cs" t="Include" />
           <e p="Item.cs" t="Include" />
           <e p="Npc.cs" t="Include" />
+          <e p="NpcPath.cs" t="Include" />
           <e p="ObjectInfoPanel.cs" t="Include" />
-          <e p="Path.cs" t="Include" />
           <e p="PathBuilder.cs" t="Include" />
           <e p="Planet.cs" t="Include" />
-          <e p="PlayerMovement.cs" t="Include" />
+          <e p="PlayerController.cs" t="Include" />
+          <e p="PlayerPath.cs" t="Include" />
+          <e p="Ship.cs" t="Include" />
+          <e p="Star.cs" t="Include" />
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />
