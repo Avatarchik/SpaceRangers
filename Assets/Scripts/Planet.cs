@@ -1,25 +1,45 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
     [SerializeField] private int rotationDuration;
     private GameManager gameManager;
     private GameObject star;
-    private Vector3 target;
+    private float turnDuration;
+    private Coroutine planetMovementCoroutine;
 
     private void Start()
     {
         star = GameObject.Find("Star");
         gameManager = FindObjectOfType<GameManager>();
+        turnDuration = GameManager.TurnDuration;
     }
 
     private void Update()
     {
         if (gameManager.TurnInProgress)
         {
-            transform.RotateAround(star.transform.position, star.transform.forward,
-                -120f / rotationDuration  * Time.deltaTime);
-            transform.localRotation = Quaternion.identity;
+            if (planetMovementCoroutine == null)
+            {
+                planetMovementCoroutine =
+                    StartCoroutine(PlanetMovementCoroutine());
+            }
         }
+    }
+
+    private IEnumerator PlanetMovementCoroutine()
+    {
+        var timer = 0f;
+        while (timer < turnDuration)
+        {
+            var speed = -360f / turnDuration / rotationDuration;
+            transform.RotateAround(star.transform.position, star.transform.forward, speed * Time.deltaTime);
+            transform.localRotation = Quaternion.identity;
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        planetMovementCoroutine = null;
     }
 }

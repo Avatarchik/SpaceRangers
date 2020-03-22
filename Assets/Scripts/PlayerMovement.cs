@@ -7,7 +7,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Camera cam;
 
     private float speed = 4f;
-    private Transform player;
     private GameManager gameManager;
 
     private float t;
@@ -19,7 +18,6 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        player = GameObject.Find("Player").transform;
         targetPos = transform.position;
     }
 
@@ -30,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
         {
             t = 0f;
             GetTargetPosition();
-            playerPos = player.transform.position;
+            playerPos = transform.position;
 
             CalculateOneTurnDistance();
         }
@@ -53,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
             targetPos = cam.ScreenToWorldPoint(Input.mousePosition);
 
             RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero);
-            if (hit.collider != null && hit.collider.gameObject != player.gameObject)
+            if (hit.collider != null && hit.collider.gameObject != gameObject)
             {
                 target.transform.parent = hit.transform;
             }

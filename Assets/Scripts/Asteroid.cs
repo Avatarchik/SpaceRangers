@@ -23,7 +23,8 @@ public class Asteroid : MonoBehaviour, IObjectData
         for (var i=0; i<mineralObjectsAmount; i++)
         {
             var randomMineralPrefab = mineralPrefabs[Random.Range(0, mineralPrefabs.Count)];
-            Instantiate(randomMineralPrefab, GetRandomPositionForMineral(), Quaternion.identity);
+            var mineralsObject =Instantiate(randomMineralPrefab, GetRandomPositionForMineral(), Quaternion.identity);
+            mineralsObject.name = "Minerals";
         }
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName("ExplosionFinished"))
         {

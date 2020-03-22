@@ -1,18 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class NewBehaviourScript : MonoBehaviour
+﻿namespace Equipment
 {
-    // Start is called before the first frame update
-    void Start()
+    public class Grab
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public int Range { get; set; }
+        public int Power { get; set; }
     }
 }

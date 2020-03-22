@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public const float TurnDuration = 3f;
+    public const float TurnDuration = 1f;
 
     public int TurnId { get; private set; } = 0;
 
