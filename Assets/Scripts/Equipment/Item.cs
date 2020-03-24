@@ -1,11 +1,15 @@
-﻿namespace Equipment
+﻿using System;
+
+namespace Equipment
 {
     public abstract class Item
     {
         public int Weight { get;}
+        public string Name { get; }
 
-        protected Item(int weight)
+        protected Item(string name, int weight)
         {
+            Name = name;
             Weight = weight;
         }
     }

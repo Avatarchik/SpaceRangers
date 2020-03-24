@@ -17,8 +17,7 @@ public class PlayerController : MonoBehaviour, IObjectData, ITakeDamage
     private Vector2 targetPos;
     private Vector2 playerPos;
     private static readonly int DestroyTrigger = Animator.StringToHash("Destroy");
-    public Vector2 OneTurnRange { get; private set; }
-
+    
     private void Start()
     {
         playerShip = GetComponentInChildren<Ship>();
@@ -36,8 +35,6 @@ public class PlayerController : MonoBehaviour, IObjectData, ITakeDamage
             t = 0f;
             GetTargetPosition();
             playerPos = transform.position;
-
-            CalculateOneTurnDistance();
         }
 
         if (turnInProgress)
@@ -83,17 +80,18 @@ public class PlayerController : MonoBehaviour, IObjectData, ITakeDamage
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5f);
             
-            CalculateOneTurnDistance();
+            CalculateOneTurnDistance(playerPos, targetPos);
 
             t += Time.deltaTime / GameManager.TurnDuration;
-            transform.position = Vector3.Lerp(playerPos, OneTurnRange, t);
+            var oneTurnRange = CalculateOneTurnDistance(playerPos, targetPos);
+            transform.position = Vector3.Lerp(playerPos, oneTurnRange, t);
         }
     }
 
-    private void CalculateOneTurnDistance()
+    public Vector2 CalculateOneTurnDistance(Vector3 start, Vector3 end) 
     {
-        var pathDistance = Vector2.Distance(targetPos, playerPos);
-        OneTurnRange = Vector3.Lerp(playerPos, targetPos, playerShip.Speed / pathDistance);
+        var pathDistance = Vector2.Distance(end, start);
+        return Vector3.Lerp(start, end, playerShip.Speed / pathDistance);
     }
 
     public string GetObjectData()

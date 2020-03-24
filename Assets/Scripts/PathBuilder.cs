@@ -6,6 +6,7 @@ public class PathBuilder : MonoBehaviour
     [SerializeField] public Sprite greenDot;
     [SerializeField] public Sprite orangeDot;
     [SerializeField] public Sprite oneTurnDistanceDot;
+    [SerializeField] public Sprite target;
     private float delta = 0.2f;
     private List<GameObject> dots = new List<GameObject>();
 
@@ -41,6 +42,8 @@ public class PathBuilder : MonoBehaviour
             dots.Add(dot);
             point += (direction * delta);
         }
+
+        dots[dots.Count - 1].GetComponent<SpriteRenderer>().sprite = target;
     }
 
     private GameObject GetOneDot(Sprite sprite)

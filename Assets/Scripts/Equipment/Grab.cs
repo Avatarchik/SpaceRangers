@@ -5,7 +5,7 @@
         public int Range { get; }
         public int Power { get; }
 
-        public Grab(int weight, int range, int power) : base(weight)
+        public Grab(string name, int weight, int range, int power) : base(name, weight)
         {
             Range = range;
             Power = power;

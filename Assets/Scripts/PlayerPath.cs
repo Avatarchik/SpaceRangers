@@ -24,15 +24,26 @@ public class PlayerPath : MonoBehaviour
             redrawPath = true;
             return;
         }
-    
-        if (lastTargetPos != target.transform.position || redrawPath)
+        
+        if (lastTargetPos != target.transform.position)
         {
-            lastTargetPos = target.transform.position;
-            pathBuilder.DrawDottedLine(
-                player.transform.position,
-                target.transform.position,
-                player.GetComponent<PlayerController>().OneTurnRange);
-            redrawPath = false;
+            redrawPath = true;
         }
+
+        if (player.transform.position != target.transform.position && redrawPath)
+        {
+            DrawPath();
+        }
+    }
+
+    private void DrawPath()
+    {
+        Debug.Log("redraw");
+        lastTargetPos = target.transform.position;
+        var playerPos = player.transform.position;
+        var oneTurnDistance =
+            player.GetComponent<PlayerController>().CalculateOneTurnDistance(playerPos, lastTargetPos);
+        pathBuilder.DrawDottedLine(playerPos, lastTargetPos, oneTurnDistance);
+        redrawPath = false;
     }
 }
