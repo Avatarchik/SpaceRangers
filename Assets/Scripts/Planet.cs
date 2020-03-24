@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Planet : MonoBehaviour
+public class Planet : MonoBehaviour, IObjectData
 {
     [SerializeField] private int rotationDuration;
     private GameManager gameManager;
@@ -41,5 +41,10 @@ public class Planet : MonoBehaviour
         }
 
         planetMovementCoroutine = null;
+    }
+
+    public string GetObjectData()
+    {
+        return $"Rotation period: {rotationDuration} Earth days";
     }
 }

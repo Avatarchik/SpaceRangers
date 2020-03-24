@@ -14,7 +14,7 @@ public class Star : MonoBehaviour, IObjectData
     {
         gameManager = FindObjectOfType<GameManager>();
         planets = FindObjectsOfType<Planet>().ToArray().Select(it => it.gameObject).ToList();
-        starInfo = "Planets: " + string.Join(",", planets.Select(it => it.name).ToList());
+        starInfo = "Planets: " + string.Join(", ", planets.Select(it => it.name).ToList());
     }
 
     private void Update()
