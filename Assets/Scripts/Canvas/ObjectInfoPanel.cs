@@ -30,7 +30,8 @@ public class ObjectInfoPanel : MonoBehaviour
                 return;
             }
             lastTarget = collider;
-            infoPanel.transform.position = new Vector3(mousePosition.x, mousePosition.y, 0f);
+            var targetPos = collider.gameObject.transform.position;
+            infoPanel.transform.position = new Vector3(targetPos.x + 0.6f, targetPos.y, 0f);
             infoPanel.SetActive(true);
             title.text = collider.gameObject.name;
             image.GetComponent<Image>().sprite = 

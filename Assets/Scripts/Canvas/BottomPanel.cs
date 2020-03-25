@@ -35,7 +35,6 @@ public class BottomPanel : MonoBehaviour
 
     public void OpenMenu()
     {
-        Time.timeScale = 0f;
         menu.SetActive(true);
     }
 }

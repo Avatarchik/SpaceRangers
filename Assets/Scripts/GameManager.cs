@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public int TurnId { get; private set; } = 0;
 
     public bool TurnInProgress { get; private set; }
+    public bool PlayerIsTargeting { get; set; }
 
     public IEnumerator ProcessTurn()
     {

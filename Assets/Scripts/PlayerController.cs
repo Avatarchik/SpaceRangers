@@ -50,6 +50,10 @@ public class PlayerController : MonoBehaviour, IObjectData, ITakeDamage
 
     private void GetTargetPosition()
     {
+        if (gameManager.PlayerIsTargeting)
+        {
+            return;
+        }
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             targetPos = cam.ScreenToWorldPoint(Input.mousePosition);

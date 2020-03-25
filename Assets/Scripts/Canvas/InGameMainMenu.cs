@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InGameMainMenu : MonoBehaviour
 {
@@ -10,8 +11,12 @@ public class InGameMainMenu : MonoBehaviour
 
     public void Continue()
     {
-        Time.timeScale = 1f;
         gameObject.SetActive(false);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(0);
     }
     
     public void Exit()
