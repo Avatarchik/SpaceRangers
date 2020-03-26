@@ -5,9 +5,9 @@ using Random = UnityEngine.Random;
 public class Npc : MonoBehaviour, ITakeDamage, IObjectData
 {
     [SerializeField] private NpcPath path;
+    [SerializeField] private GameObject movementAnchor;
 
     private GameManager gameManager;
-    private Vector3 movementAnchor;
     private GameObject target;
     private float t;
     private float speed = 3.5f;
@@ -25,7 +25,6 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData
         animator = GetComponentInChildren<Animator>();
         hitPoints = maxHitPoints;
         target = new GameObject("Npc target");
-        movementAnchor = GameObject.Find("Star").transform.position;
         gameManager = FindObjectOfType<GameManager>();
         FindTargetToMove();
     }
@@ -78,8 +77,9 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData
 
     private void FindTargetToMove()
     {
-        var targetX = Random.Range(movementAnchor.x - 3f, movementAnchor.y + 5f);
-        var targetY = Random.Range(movementAnchor.x - 3f, movementAnchor.y + 5f);
+        var anchorPosition = movementAnchor.transform.position;
+        var targetX = Random.Range(anchorPosition.x - 3f, anchorPosition.y + 5f);
+        var targetY = Random.Range(anchorPosition.x - 3f, anchorPosition.y + 5f);
         target.transform.position = new Vector3(targetX, targetY, 0f);
         targetPos = target.transform.position;
     }

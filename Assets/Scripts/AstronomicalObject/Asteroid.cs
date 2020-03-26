@@ -34,6 +34,7 @@ namespace AstronomicalObject
                 var randomMineralPrefab = mineralPrefabs[Random.Range(0, mineralPrefabs.Count)];
                 var mineralsObject =Instantiate(randomMineralPrefab, GetRandomPositionForMineral(), Quaternion.identity);
                 mineralsObject.name = "Minerals";
+                mineralsObject.GetComponent<Mineral>().Amount = mineralsAmount / mineralObjectsAmount;
             }
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName("ExplosionFinished"))
             {
