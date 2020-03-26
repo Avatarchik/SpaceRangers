@@ -4,9 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public const float TurnDuration = 3f;
-
     public int TurnId { get; private set; } = 0;
-
     public bool TurnInProgress { get; private set; }
     public bool PlayerIsTargeting { get; set; }
 

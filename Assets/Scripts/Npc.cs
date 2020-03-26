@@ -1,25 +1,31 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Npc : MonoBehaviour
+public class Npc : MonoBehaviour, ITakeDamage, IObjectData
 {
-    [SerializeField] private GameObject targetPrefab;
     [SerializeField] private NpcPath path;
 
     private GameManager gameManager;
-    private Vector3 starPosition;
+    private Vector3 movementAnchor;
     private GameObject target;
     private float t;
     private float speed = 3.5f;
+    private int maxHitPoints = 100;
+    private int hitPoints;
+    private Animator animator;
 
     private Vector2 targetPos;
     private Vector2 selfPos;
     public Vector2 oneTurnRange;
+    private static readonly int DestroyTrigger = Animator.StringToHash("Destroy");
 
     private void Start()
     {
-        target = Instantiate(targetPrefab);
-        starPosition = GameObject.Find("Star").transform.position;
+        animator = GetComponentInChildren<Animator>();
+        hitPoints = maxHitPoints;
+        target = new GameObject("Npc target");
+        movementAnchor = GameObject.Find("Star").transform.position;
         gameManager = FindObjectOfType<GameManager>();
         FindTargetToMove();
     }
@@ -46,6 +52,10 @@ public class Npc : MonoBehaviour
 
     private void Move()
     {
+        if (hitPoints <= 0)
+        {
+            return;
+        }
         if ((Vector2) transform.position != targetPos)
         {
             Vector3 vectorToTarget = (Vector3) targetPos - transform.position;
@@ -68,8 +78,8 @@ public class Npc : MonoBehaviour
 
     private void FindTargetToMove()
     {
-        var targetX = Random.Range(starPosition.x - 3f, starPosition.y + 5f);
-        var targetY = Random.Range(starPosition.x - 3f, starPosition.y + 5f);
+        var targetX = Random.Range(movementAnchor.x - 3f, movementAnchor.y + 5f);
+        var targetY = Random.Range(movementAnchor.x - 3f, movementAnchor.y + 5f);
         target.transform.position = new Vector3(targetX, targetY, 0f);
         targetPos = target.transform.position;
     }
@@ -82,5 +92,29 @@ public class Npc : MonoBehaviour
     private void OnMouseExit()
     {
         path.DestroyPath();
+    }
+    
+    private IEnumerator DestructionProcess()
+    {
+        animator.SetTrigger(DestroyTrigger);
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("ExplosionFinished"))
+        {
+            yield return null;
+        }
+        Destroy(gameObject);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        hitPoints -= damage;
+        if (hitPoints <= 0)
+        {
+            StartCoroutine(DestructionProcess());
+        }
+    }
+
+    public string GetObjectData()
+    {
+        return $"Structure: {hitPoints}/{maxHitPoints}\nSpeed: {speed}";
     }
 }

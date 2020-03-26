@@ -10,7 +10,7 @@ public static class CircleDrawer
     {
         var line = obj.AddComponent<LineRenderer>();
         line.useWorldSpace = false;
-        line.startColor = Color.red;
+        line.material.color = Color.red;
         line.startWidth = lineWidth;
         line.positionCount = Segments + 1;
 

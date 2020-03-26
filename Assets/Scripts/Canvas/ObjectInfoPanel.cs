@@ -1,45 +1,48 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ObjectInfoPanel : MonoBehaviour
+namespace Canvas
 {
-    [SerializeField] private Camera cam;
-    [SerializeField] private GameObject infoPanel;
-    [SerializeField] private Text title;
-    [SerializeField] private GameObject image;
-    [SerializeField] private Text data;
-    private Collider2D lastTarget;
-
-    private void Update()
+    public class ObjectInfoPanel : MonoBehaviour
     {
-        var mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+        [SerializeField] private Camera cam;
+        [SerializeField] private GameObject infoPanel;
+        [SerializeField] private Text title;
+        [SerializeField] private GameObject image;
+        [SerializeField] private Text data;
+        private Collider2D lastTarget;
 
-        var collider = hit.collider;
-        if (collider == null)
+        private void Update()
         {
-            infoPanel.SetActive(false);
-            lastTarget = null;
-            data.text = "";
-        }
+            var mousePosition = cam.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
-        if (collider != null)
-        {
-            if (collider == lastTarget)
+            var collider = hit.collider;
+            if (collider == null)
             {
-                return;
+                infoPanel.SetActive(false);
+                lastTarget = null;
+                data.text = "";
             }
-            lastTarget = collider;
-            var targetPos = collider.gameObject.transform.position;
-            infoPanel.transform.position = new Vector3(targetPos.x + 0.6f, targetPos.y, 0f);
-            infoPanel.SetActive(true);
-            title.text = collider.gameObject.name;
-            image.GetComponent<Image>().sprite = 
-                collider.gameObject.transform.Find("Graphics").GetComponent<SpriteRenderer>().sprite;
-            var objectData = collider.gameObject.GetComponent<IObjectData>();
-            if (objectData != null)
+
+            if (collider != null)
             {
-                data.text = objectData.GetObjectData();
+                if (collider == lastTarget)
+                {
+                    return;
+                }
+                lastTarget = collider;
+                var targetPos = collider.gameObject.transform.position;
+                infoPanel.transform.position = new Vector3(targetPos.x + 0.6f, targetPos.y, 0f);
+                infoPanel.SetActive(true);
+                title.text = collider.gameObject.name;
+                image.GetComponent<Image>().sprite = 
+                    collider.gameObject.transform.Find("Graphics").GetComponent<SpriteRenderer>().sprite;
+                var objectData = collider.gameObject.GetComponent<IObjectData>();
+                if (objectData != null)
+                {
+                    data.text = objectData.GetObjectData();
+                }
             }
         }
     }
