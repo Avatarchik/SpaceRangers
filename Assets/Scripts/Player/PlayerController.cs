@@ -62,7 +62,7 @@ namespace Player
                 targetPos = cam.ScreenToWorldPoint(Input.mousePosition);
 
                 RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero);
-                if (hit.collider != null && hit.collider.gameObject != gameObject)
+                if (hit.collider != null && hit.collider.GetComponent<ICanBeFollowed>() != null)
                 {
                     target.transform.parent = hit.transform;
                 }

@@ -7,3 +7,7 @@ public interface IObjectData
 {
     string GetObjectData();
 }
+
+public interface ICanBeFollowed
+{
+}

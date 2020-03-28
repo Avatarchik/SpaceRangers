@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Npc : MonoBehaviour, ITakeDamage, IObjectData
+public class Npc : MonoBehaviour, ITakeDamage, IObjectData, ICanBeFollowed
 {
     [SerializeField] private NpcPath path;
     [SerializeField] private GameObject movementAnchor;
@@ -90,6 +90,11 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData
     
     private IEnumerator DestructionProcess()
     {
+        var obj = transform.Find("Player Target");
+        if (obj != null)
+        {
+            obj.transform.parent = null;
+        }
         animator.SetTrigger(DestroyTrigger);
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName("ExplosionFinished"))
         {

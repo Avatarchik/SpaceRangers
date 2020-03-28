@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace AstronomicalObject
 {
-    public class Planet : MonoBehaviour, IObjectData
+    public class Planet : MonoBehaviour, IObjectData, ICanBeFollowed
     {
         [SerializeField] private int rotationDuration;
         private GameManager gameManager;
