@@ -6,6 +6,7 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData, ICanBeFollowed
 {
     [SerializeField] private NpcPath path;
     [SerializeField] private GameObject movementAnchor;
+    [SerializeField] private GameObject damageText;
 
     private ShipData shipData;
     private GameManager gameManager;
@@ -105,6 +106,10 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData, ICanBeFollowed
 
     public void TakeDamage(int damage)
     {
+        var objectPosition = transform.position;
+        var textPosition = new Vector3(objectPosition.x, objectPosition.y + 0.3f, objectPosition.z);
+        var text = Instantiate(damageText, textPosition, Quaternion.identity, transform);
+        text.GetComponent<TextMesh>().text = damage.ToString();
         hitPoints -= damage;
         if (hitPoints <= 0)
         {

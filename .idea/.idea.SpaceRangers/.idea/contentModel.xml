@@ -21,6 +21,7 @@
             <e p="ObjectInfoPanel.cs" t="Include" />
           </e>
           <e p="CircleDrawer.cs" t="Include" />
+          <e p="DamageText.cs" t="Include" />
           <e p="Equipment" t="Include">
             <e p="Engine.cs" t="Include" />
             <e p="Grab.cs" t="Include" />

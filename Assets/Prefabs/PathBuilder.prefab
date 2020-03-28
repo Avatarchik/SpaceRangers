@@ -47,3 +47,5 @@ MonoBehaviour:
   orangeDot: {fileID: 21300000, guid: de42368683541864a9a1c4f1dde387b9, type: 3}
   oneTurnDistanceDot: {fileID: 21300000, guid: b64cdd9a8bb141b4faebc61e69663a23, type: 3}
   target: {fileID: 21300000, guid: e08a27ff99dd3914a936bfcd6a6da22f, type: 3}
+  pathTextPrefab: {fileID: 7883513745039407323, guid: 95450f2599cbc484980ce195e6d7b609,
+    type: 3}
