@@ -7,25 +7,26 @@ namespace Player
     public class PlayerController : MonoBehaviour, IObjectData, ITakeDamage
     {
         [SerializeField] private Camera cam;
-        [SerializeField]private GameObject target;
+        [SerializeField] private GameObject target;
+        public ShipData ShipData { get; set; }
         
-        private PlayerShip playerPlayerShip;
         private int hitPoints;
         private GameManager gameManager;
         private Animator shipAnimator;
         private Vector2 targetPos;
         private Vector2 playerPos;
         private float t;
-        
+
         private static readonly int DestroyTrigger = Animator.StringToHash("Destroy");
-    
+
         private void Start()
         {
+            ShipData = ShipDataFactory.GetPlayerDefaultShipData();
+            hitPoints = ShipData.Capacity;
             targetPos = transform.position;
             shipAnimator = GetComponentInChildren<Animator>();
             gameManager = FindObjectOfType<GameManager>();
-            playerPlayerShip = GetComponentInChildren<PlayerShip>();
-            hitPoints = playerPlayerShip.Capacity;
+            hitPoints = ShipData.Capacity;
         }
 
         private void Update()
@@ -55,6 +56,7 @@ namespace Player
             {
                 return;
             }
+
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
                 targetPos = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -82,31 +84,24 @@ namespace Player
             {
                 return;
             }
-        
+
             if ((Vector2) transform.position != targetPos)
             {
                 Vector3 vectorToTarget = (Vector3) targetPos - transform.position;
                 float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
                 Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
                 transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5f);
-            
-                CalculateOneTurnDistance(playerPos, targetPos);
-
+                
                 t += Time.deltaTime / GameManager.TurnDuration;
-                var oneTurnRange = CalculateOneTurnDistance(playerPos, targetPos);
+                var oneTurnRange = Helper
+                    .CalculateOneTurnDistance(playerPos, targetPos, ShipData.Engine.Speed * 0.01f);
                 transform.position = Vector3.Lerp(playerPos, oneTurnRange, t);
             }
         }
 
-        public Vector2 CalculateOneTurnDistance(Vector3 start, Vector3 end) 
-        {
-            var pathDistance = Vector2.Distance(end, start);
-            return Vector3.Lerp(start, end, playerPlayerShip.Speed / pathDistance);
-        }
-
         public string GetObjectData()
         {
-            return $"Structure: {hitPoints}/{playerPlayerShip.Capacity}\nSpeed: {playerPlayerShip.Speed}";
+            return $"Structure: {hitPoints}/{ShipData.Capacity}\nSpeed: {ShipData.Engine.Speed}";
         }
 
         public void TakeDamage(int damage)
@@ -117,7 +112,7 @@ namespace Player
                 StartCoroutine(DestructionProcess());
             }
         }
-    
+
         private IEnumerator DestructionProcess()
         {
             shipAnimator.SetTrigger(DestroyTrigger);

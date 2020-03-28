@@ -4,8 +4,8 @@ namespace Player
 {
     public class PlayerPath : MonoBehaviour
     {
-        [SerializeField]private GameObject target;
-        
+        [SerializeField] private GameObject target;
+
         private GameObject player;
         private GameManager gameManager;
         private PathBuilder pathBuilder;
@@ -28,8 +28,8 @@ namespace Player
                 redrawPath = true;
                 return;
             }
-        
-            if (lastTargetPos != target.transform.position)
+
+            if (target != null && lastTargetPos != target.transform.position)
             {
                 redrawPath = true;
             }
@@ -44,8 +44,8 @@ namespace Player
         {
             lastTargetPos = target.transform.position;
             var playerPos = player.transform.position;
-            var oneTurnDistance = player.GetComponent<PlayerController>()
-                .CalculateOneTurnDistance(playerPos, lastTargetPos);
+            var speed = player.GetComponent<PlayerController>().ShipData.Engine.Speed * 0.01f;
+            var oneTurnDistance = Helper.CalculateOneTurnDistance(playerPos, lastTargetPos, speed);
             pathBuilder.DrawDottedLine(playerPos, lastTargetPos, oneTurnDistance);
             redrawPath = false;
         }

@@ -2,12 +2,14 @@
 {
     public class Weapon : Item
     {
-        public int Damage { get; }
+        public int MinDamage { get; }
+        public int MaxDamage { get; }
         public int Range { get; }
 
-        public Weapon(string name, int weight, int damage, int range) : base(name, weight)
+        public Weapon(string name, int weight, int minDamage,int maxDamage, int range) : base(name, weight)
         {
-            Damage = damage;
+            MinDamage = minDamage;
+            MaxDamage = maxDamage;
             Range = range;
         }
     }

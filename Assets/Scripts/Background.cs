@@ -6,8 +6,7 @@ public class Background : MonoBehaviour
     [SerializeField] private float parallaxEffect;
 
     private float startPos;
-
-
+    
     private void Start()
     {
         startPos = transform.position.x;

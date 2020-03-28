@@ -96,14 +96,14 @@ namespace Player
             }
 
             gameManager.PlayerIsTargeting = true;
-            var weapons = transform.GetComponent<PlayerShip>().Weapons;
+            var weapons = transform.GetComponent<PlayerController>().ShipData.Weapons;
             foreach (var weapon in weapons)
             {
                 var obj = new GameObject("Weapon Range Zone");
                 obj.transform.parent = transform;
                 var position = transform.position;
                 obj.transform.position = new Vector3(position.x, position.y, -1f);
-                CircleDrawer.DrawCircle(obj, weapon.Range * 0.01f, 0.01f);
+                CircleDrawer.DrawCircle(obj, weapon.Range * 0.01f, Color.red);
                 weaponRangeZone.Add(obj);
             }
         }
@@ -120,15 +120,15 @@ namespace Player
             }
 
             laserBeam.enabled = false;
-            foreach (var weapon in transform.GetComponent<PlayerShip>().Weapons)
+            foreach (var weapon in transform.GetComponent<PlayerController>().ShipData.Weapons)
             {
-                target.GetComponent<ITakeDamage>().TakeDamage(weapon.Damage);
+                target.GetComponent<ITakeDamage>().TakeDamage(Random.Range(weapon.MinDamage, weapon.MaxDamage));
             }
         }
 
         private float GetMaxWeaponRange()
         {
-            return transform.GetComponent<PlayerShip>().Weapons.Max(it => it.Range) * 0.01f;
+            return transform.GetComponent<PlayerController>().ShipData.Weapons.Max(it => it.Range) * 0.01f;
         }
     }
 }

@@ -28,6 +28,7 @@
             <e p="Weapon.cs" t="Include" />
           </e>
           <e p="GameManager.cs" t="Include" />
+          <e p="Helper.cs" t="Include" />
           <e p="Interfaces.cs" t="Include" />
           <e p="MinimapFrame.cs" t="Include" />
           <e p="Npc.cs" t="Include" />
@@ -37,8 +38,9 @@
             <e p="BattleController.cs" t="Include" />
             <e p="PlayerController.cs" t="Include" />
             <e p="PlayerPath.cs" t="Include" />
-            <e p="PlayerShip.cs" t="Include" />
           </e>
+          <e p="ShipData.cs" t="Include" />
+          <e p="ShipDataFactory.cs" t="Include" />
         </e>
       </e>
       <e p="obj" t="ExcludeRecursive" />

@@ -10,7 +10,7 @@ namespace Canvas
     {
         private GameManager gameManager;
         private DateTime dateTime;
-        private PlayerShip playerPlayerShip;
+        private ShipData shipData;
         [SerializeField] private Text date;
         [SerializeField] private Text freeSpace;
         [SerializeField] private Text money;
@@ -18,12 +18,12 @@ namespace Canvas
     
         private void Start()
         {
-            playerPlayerShip = GameObject.Find("Player").GetComponentInChildren<PlayerShip>();
+            shipData = GameObject.Find("Player").GetComponent<PlayerController>().ShipData;
             dateTime = new DateTime(3300, 1, 1, new GregorianCalendar());
             gameManager = FindObjectOfType<GameManager>();
             date.text = dateTime.AddDays(gameManager.TurnId).ToString("yyyy MMMM dd");
-            freeSpace.text = playerPlayerShip.GetFreeSpace().ToString();
-            money.text = playerPlayerShip.Money.ToString();
+            freeSpace.text = shipData.GetFreeSpace().ToString();
+            money.text = shipData.Money.ToString();
         }
 
         public void ProcessTurnButton()
@@ -39,6 +39,11 @@ namespace Canvas
         public void OpenMenu()
         {
             menu.SetActive(true);
+        }
+
+        public void UpdateFreeSpace()
+        {
+            freeSpace.text = shipData.GetFreeSpace().ToString();
         }
     }
 }

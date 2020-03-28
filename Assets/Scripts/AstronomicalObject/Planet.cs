@@ -24,8 +24,7 @@ namespace AstronomicalObject
             {
                 if (planetMovementCoroutine == null)
                 {
-                    planetMovementCoroutine =
-                        StartCoroutine(PlanetMovementCoroutine());
+                    planetMovementCoroutine = StartCoroutine(PlanetMovementCoroutine());
                 }
             }
         }

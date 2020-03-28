@@ -7,23 +7,22 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData
     [SerializeField] private NpcPath path;
     [SerializeField] private GameObject movementAnchor;
 
+    private ShipData shipData;
     private GameManager gameManager;
     private GameObject target;
     private float t;
-    private float speed = 3.5f;
-    private int maxHitPoints = 100;
     private int hitPoints;
     private Animator animator;
 
-    private Vector2 targetPos;
-    private Vector2 selfPos;
-    public Vector2 oneTurnRange;
+    private Vector3 targetPos;
+    private Vector3 selfPos;
     private static readonly int DestroyTrigger = Animator.StringToHash("Destroy");
 
     private void Start()
     {
+        shipData = ShipDataFactory.GetNpcDefaultShipData();
+        hitPoints = shipData.Capacity;
         animator = GetComponentInChildren<Animator>();
-        hitPoints = maxHitPoints;
         target = new GameObject("Npc target");
         gameManager = FindObjectOfType<GameManager>();
         FindTargetToMove();
@@ -36,7 +35,6 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData
         {
             t = 0f;
             selfPos = transform.position;
-            CalculateOneTurnDistance();
             if (transform.position == target.transform.position)
             {
                 FindTargetToMove();
@@ -55,26 +53,20 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData
         {
             return;
         }
-        if ((Vector2) transform.position != targetPos)
+        if (transform.position != targetPos)
         {
-            Vector3 vectorToTarget = (Vector3) targetPos - transform.position;
+            Vector3 vectorToTarget = targetPos - transform.position;
             float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5f);
             
-            CalculateOneTurnDistance();
-
             t += Time.deltaTime / GameManager.TurnDuration;
+            var oneTurnRange = Helper
+                .CalculateOneTurnDistance(selfPos, targetPos, shipData.Engine.Speed * 0.01f);
             transform.position = Vector3.Lerp(selfPos, oneTurnRange, t);
         }
     }
     
-    private void CalculateOneTurnDistance()
-    {
-        var pathDistance = Vector2.Distance(targetPos, selfPos);
-        oneTurnRange = Vector3.Lerp(selfPos, targetPos, speed / pathDistance);
-    }
-
     private void FindTargetToMove()
     {
         var anchorPosition = movementAnchor.transform.position;
@@ -86,7 +78,9 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData
 
     private void OnMouseEnter()
     {
-        path.DrawPath(transform.position, target.transform.position, oneTurnRange);
+        var oneTurnRange = Helper
+            .CalculateOneTurnDistance(selfPos, targetPos, shipData.Engine.Speed * 0.01f);
+        path.DrawPath(selfPos, targetPos, oneTurnRange);
     }
 
     private void OnMouseExit()
@@ -115,6 +109,6 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData
 
     public string GetObjectData()
     {
-        return $"Structure: {hitPoints}/{maxHitPoints}\nSpeed: {speed}";
+        return $"Structure: {hitPoints}/{shipData.Capacity}\nSpeed: {shipData.Engine.Speed}";
     }
 }

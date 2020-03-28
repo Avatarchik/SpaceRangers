@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
             transform.position = new Vector3(playerPosition.x, playerPosition.y, pos.z);
             return;
         }
-        /*if (Input.mousePosition.y >= Screen.height - cursorNearBorderThickness)
+        if (Input.mousePosition.y >= Screen.height - cursorNearBorderThickness)
         {
             pos.y += speed * Time.deltaTime;
         }
@@ -37,6 +37,6 @@ public class CameraController : MonoBehaviour
         {
             pos.x -= speed * Time.deltaTime;
         }
-        transform.position = pos;*/
+        transform.position = pos;
     }
 }

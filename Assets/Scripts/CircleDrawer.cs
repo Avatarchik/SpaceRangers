@@ -6,14 +6,14 @@ public static class CircleDrawer
 {
     private const int Segments = 360;
 
-    public static void DrawCircle(GameObject obj, float radius, float lineWidth)
+    public static void DrawCircle(GameObject obj, float radius, Color color)
     {
         var line = obj.AddComponent<LineRenderer>();
         line.useWorldSpace = false;
         line.material = new Material(Shader.Find("Sprites/Default"));
-        line.startColor = Color.red;
-        line.endColor = Color.red;
-        line.startWidth = lineWidth;
+        line.startColor = color;
+        line.endColor = color;
+        line.startWidth = 0.01f;
         line.positionCount = Segments + 1;
 
         var pointCount = Segments + 1;
