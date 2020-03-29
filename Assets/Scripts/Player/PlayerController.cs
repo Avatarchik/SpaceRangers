@@ -8,6 +8,8 @@ namespace Player
     {
         [SerializeField] private Camera cam;
         [SerializeField] private GameObject target;
+        [SerializeField] private GameObject damageTextPrefab;
+        
         public ShipData ShipData { get; set; }
         
         private int hitPoints;
@@ -106,6 +108,11 @@ namespace Player
 
         public void TakeDamage(int damage)
         {
+            var objectPosition = transform.position;
+            var textPosition = new Vector3(objectPosition.x, objectPosition.y + 0.3f, objectPosition.z);
+            var text = Instantiate(damageTextPrefab, textPosition, Quaternion.identity, transform);
+            text.GetComponent<TextMesh>().text = damage.ToString();
+            
             hitPoints -= damage;
             if (hitPoints <= 0)
             {

@@ -255,7 +255,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1661900504529984814}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.172999, y: 4.6248684, z: -0.1262086}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1921327199050684807}
@@ -521,6 +521,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
   target: {fileID: 1661900504998158986}
+  damageTextPrefab: {fileID: 5758019646262886638, guid: 252fa17e9c962cc4c8de8608684ca836,
+    type: 3}
 --- !u!1001 &1661900505268792052
 PrefabInstance:
   m_ObjectHideFlags: 0
