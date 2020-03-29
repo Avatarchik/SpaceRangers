@@ -12,5 +12,10 @@
             MaxDamage = maxDamage;
             Range = range;
         }
+        
+        public override string ToString()
+        {
+            return base.ToString() + $"Damage: {MinDamage}-{MaxDamage}\nRange: {Range}";
+        }
     }
 }

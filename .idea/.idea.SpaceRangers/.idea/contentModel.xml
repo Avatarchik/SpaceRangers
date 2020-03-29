@@ -9,8 +9,10 @@
         <e p="Scripts" t="Include">
           <e p="AstronomicalObject" t="Include">
             <e p="Asteroid.cs" t="Include" />
+            <e p="Container.cs" t="Include" />
             <e p="Mineral.cs" t="Include" />
             <e p="Planet.cs" t="Include" />
+            <e p="SpaceItem.cs" t="Include" />
             <e p="Star.cs" t="Include" />
           </e>
           <e p="Background.cs" t="Include" />

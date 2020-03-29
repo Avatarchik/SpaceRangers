@@ -8,5 +8,10 @@
         {
             Speed = speed;
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + $"Speed: {Speed}";
+        }
     }
 }

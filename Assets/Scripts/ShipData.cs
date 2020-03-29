@@ -18,4 +18,14 @@ public class ShipData
         var cargoWeight = Cargo.Sum(item => item.Weight);
         return Capacity - weaponWeight - cargoWeight - Grab.Weight - Engine.Weight;
     }
+
+    public Item GetRandomItemFromShip()
+    {
+        var items = new List<Item>();
+        items.AddRange(Weapons);
+        items.AddRange(Cargo);
+        items.Add(Grab);
+        items.Add(Engine);
+        return items[Random.Range(0, items.Count - 1)];
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using AstronomicalObject;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -7,6 +8,7 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData, ICanBeFollowed
     [SerializeField] private NpcPath path;
     [SerializeField] private GameObject movementAnchor;
     [SerializeField] private GameObject damageText;
+    [SerializeField] private GameObject container;
 
     private ShipData shipData;
     private GameManager gameManager;
@@ -54,20 +56,21 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData, ICanBeFollowed
         {
             return;
         }
+
         if (transform.position != targetPos)
         {
             Vector3 vectorToTarget = targetPos - transform.position;
             float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5f);
-            
+
             t += Time.deltaTime / GameManager.TurnDuration;
             var oneTurnRange = Helper
                 .CalculateOneTurnDistance(selfPos, targetPos, shipData.Engine.Speed * 0.01f);
             transform.position = Vector3.Lerp(selfPos, oneTurnRange, t);
         }
     }
-    
+
     private void FindTargetToMove()
     {
         var anchorPosition = movementAnchor.transform.position;
@@ -88,7 +91,7 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData, ICanBeFollowed
     {
         path.DestroyPath();
     }
-    
+
     private IEnumerator DestructionProcess()
     {
         var obj = transform.Find("Player Target");
@@ -96,11 +99,15 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData, ICanBeFollowed
         {
             obj.transform.parent = null;
         }
+        
+        DropLoot();
+
         animator.SetTrigger(DestroyTrigger);
         while (!animator.GetCurrentAnimatorStateInfo(0).IsName("ExplosionFinished"))
         {
             yield return null;
         }
+
         Destroy(gameObject);
     }
 
@@ -120,5 +127,13 @@ public class Npc : MonoBehaviour, ITakeDamage, IObjectData, ICanBeFollowed
     public string GetObjectData()
     {
         return $"Structure: {hitPoints}/{shipData.Capacity}\nSpeed: {shipData.Engine.Speed}";
+    }
+
+    private void DropLoot()
+    {
+        var itemToDrop = shipData.GetRandomItemFromShip();
+        var containerObject = Instantiate(container, transform.position, Quaternion.identity);
+        containerObject.name = itemToDrop.Name;
+        containerObject.GetComponent<Container>().Content = itemToDrop;
     }
 }

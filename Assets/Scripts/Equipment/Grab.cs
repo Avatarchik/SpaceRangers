@@ -10,5 +10,10 @@
             Range = range;
             Power = power;
         }
+        
+        public override string ToString()
+        {
+            return base.ToString() + $"Range: {Range}\nPower: {Power}";
+        }
     }
 }

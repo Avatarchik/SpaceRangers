@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4052635860345185004}
   - component: {fileID: 4052635860345185005}
-  - component: {fileID: -7107212882703907490}
+  - component: {fileID: -2026242169513111709}
   m_Layer: 0
-  m_Name: Minerals
+  m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,8 +26,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4052635860345185002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.099, y: 1.375, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 4052635860374386703}
   - {fileID: 1094819022}
@@ -50,7 +50,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
---- !u!114 &-7107212882703907490
+--- !u!114 &-2026242169513111709
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59,7 +59,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4052635860345185002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44c5d48817bc44849e48b9a0edc6df1e, type: 3}
+  m_Script: {fileID: 11500000, guid: ae99ad1c15104be5a98cf505482e2e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4052635860374386700
@@ -133,7 +133,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c76bb12596dd54c4ebcd764a02a97869, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b983ef1225743214b86ec09900b741a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -154,7 +154,7 @@ Animator:
   m_GameObject: {fileID: 4052635860374386700}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 7dc1429eb92b0e5438fe9e9a105d17a0, type: 2}
+  m_Controller: {fileID: 22100000, guid: 0d49ec34c7dd02943b4ccc85bd7a7cfc, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
