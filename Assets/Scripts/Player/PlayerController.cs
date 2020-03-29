@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using AstronomicalObject;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -9,9 +10,9 @@ namespace Player
         [SerializeField] private Camera cam;
         [SerializeField] private GameObject target;
         [SerializeField] private GameObject damageTextPrefab;
-        
+
         public ShipData ShipData { get; set; }
-        
+
         private int hitPoints;
         private GameManager gameManager;
         private Animator shipAnimator;
@@ -61,18 +62,17 @@ namespace Player
 
             if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                targetPos = cam.ScreenToWorldPoint(Input.mousePosition);
+                var cursorPos = targetPos = cam.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(cursorPos, Vector2.zero);
 
-                RaycastHit2D hit = Physics2D.Raycast(targetPos, Vector2.zero);
-                if (hit.collider != null && hit.collider.GetComponent<ICanBeFollowed>() != null)
+                if (hit.collider?.GetComponent<SpaceItem>() != null)
                 {
-                    target.transform.parent = hit.transform;
+                    return;
                 }
-                else
-                {
-                    target.transform.parent = null;
-                }
+                
+                target.transform.parent = hit.collider?.GetComponent<ICanBeFollowed>() != null ? hit.transform : null;
 
+                targetPos = cursorPos;
                 target.transform.position = targetPos;
 
                 var dist = Vector3.Distance(targetPos, transform.position);
@@ -80,54 +80,55 @@ namespace Player
             }
         }
 
-        private void Move()
-        {
-            if (hitPoints <= 0)
+            private void Move()
             {
-                return;
+                if (hitPoints <= 0)
+                {
+                    return;
+                }
+
+                if ((Vector2) transform.position != targetPos)
+                {
+                    Vector3 vectorToTarget = (Vector3) targetPos - transform.position;
+                    float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
+                    Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5f);
+
+                    t += Time.deltaTime / GameManager.TurnDuration;
+                    var oneTurnRange = Helper
+                        .CalculateOneTurnDistance(playerPos, targetPos, ShipData.Engine.Speed * 0.01f);
+                    transform.position = Vector3.Lerp(playerPos, oneTurnRange, t);
+                }
             }
 
-            if ((Vector2) transform.position != targetPos)
+            public string GetObjectData()
             {
-                Vector3 vectorToTarget = (Vector3) targetPos - transform.position;
-                float angle = Mathf.Atan2(vectorToTarget.y, vectorToTarget.x) * Mathf.Rad2Deg;
-                Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-                transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5f);
-                
-                t += Time.deltaTime / GameManager.TurnDuration;
-                var oneTurnRange = Helper
-                    .CalculateOneTurnDistance(playerPos, targetPos, ShipData.Engine.Speed * 0.01f);
-                transform.position = Vector3.Lerp(playerPos, oneTurnRange, t);
+                return $"Structure: {hitPoints}/{ShipData.Capacity}\nSpeed: {ShipData.Engine.Speed}";
             }
-        }
 
-        public string GetObjectData()
-        {
-            return $"Structure: {hitPoints}/{ShipData.Capacity}\nSpeed: {ShipData.Engine.Speed}";
-        }
-
-        public void TakeDamage(int damage)
-        {
-            var objectPosition = transform.position;
-            var textPosition = new Vector3(objectPosition.x, objectPosition.y + 0.3f, objectPosition.z);
-            var text = Instantiate(damageTextPrefab, textPosition, Quaternion.identity, transform);
-            text.GetComponent<TextMesh>().text = damage.ToString();
-            
-            hitPoints -= damage;
-            if (hitPoints <= 0)
+            public void TakeDamage(int damage)
             {
-                StartCoroutine(DestructionProcess());
-            }
-        }
+                var objectPosition = transform.position;
+                var textPosition = new Vector3(objectPosition.x, objectPosition.y + 0.3f, objectPosition.z);
+                var text = Instantiate(damageTextPrefab, textPosition, Quaternion.identity, transform);
+                text.GetComponent<TextMesh>().text = damage.ToString();
 
-        private IEnumerator DestructionProcess()
-        {
-            shipAnimator.SetTrigger(DestroyTrigger);
-            while (!shipAnimator.GetCurrentAnimatorStateInfo(0).IsName("ExplosionFinished"))
-            {
-                yield return null;
+                hitPoints -= damage;
+                if (hitPoints <= 0)
+                {
+                    StartCoroutine(DestructionProcess());
+                }
             }
-            Destroy(gameObject);
+
+            private IEnumerator DestructionProcess()
+            {
+                shipAnimator.SetTrigger(DestroyTrigger);
+                while (!shipAnimator.GetCurrentAnimatorStateInfo(0).IsName("ExplosionFinished"))
+                {
+                    yield return null;
+                }
+
+                Destroy(gameObject);
+            }
         }
     }
-}

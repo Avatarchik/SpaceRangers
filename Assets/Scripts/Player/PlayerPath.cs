@@ -53,7 +53,8 @@ namespace Player
             pathBuilder.DrawDottedLine(playerPos, lastTargetPos, oneTurnDistance);
             redrawPath = false;
 
-            var textPosition = new Vector3(lastTargetPos.x, lastTargetPos.y + 0.3f, lastTargetPos.z);
+            var textShift = playerPos.y > lastTargetPos.y ? -0.1f : 0.2f;
+            var textPosition = new Vector3(lastTargetPos.x, lastTargetPos.y + textShift, lastTargetPos.z);
             pathText = Instantiate(pathTextPrefab, textPosition, Quaternion.identity, transform);
             pathText.GetComponent<TextMesh>().text = GetPathInfoText(playerPos, oneTurnDistance);
         }

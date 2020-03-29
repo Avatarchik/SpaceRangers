@@ -10,6 +10,8 @@ namespace AstronomicalObject
         private Animator animator;
         private GameObject player;
         private static readonly int DestroyTrigger = Animator.StringToHash("Destroy");
+        private GameManager gameManager;
+        private LineRenderer playerGrabRangeCircle;
         
         public Item Content { get; set; }
 
@@ -17,7 +19,8 @@ namespace AstronomicalObject
         {
             animator = GetComponentInChildren<Animator>();
             player = GameObject.Find("Player");
-            
+            gameManager = FindObjectOfType<GameManager>();
+
         }
         
         public void TakeDamage(int damage)
@@ -37,13 +40,19 @@ namespace AstronomicalObject
 
         private void OnMouseEnter()
         {
+            if (gameManager.TurnInProgress || gameManager.PlayerIsTargeting)
+            {
+                return;
+            }
+
             CircleDrawer.DrawCircle(player, 
-                player.GetComponent<PlayerController>().ShipData.Grab.Range * 0.01f, Color.yellow);
+                    player.GetComponent<PlayerController>().ShipData.Grab.Range * 0.01f, Color.yellow);
+                playerGrabRangeCircle = player.GetComponent<LineRenderer>();
         }
 
         private void OnMouseExit()
         {
-            Destroy(player.GetComponent<LineRenderer>());
+            Destroy(playerGrabRangeCircle);
         }
     }
 }

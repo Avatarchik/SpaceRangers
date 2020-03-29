@@ -35,15 +35,15 @@ namespace Player
                     var item = hit.collider.gameObject;
                     if (lootToPickUp.Contains(item))
                     {
-                        Destroy(GetComponentInChildren<PickUpMark>().gameObject);
+                        Destroy(item.GetComponentInChildren<PickUpMark>().gameObject);
                         lootToPickUp.Remove(item);
                         return;
                     }
 
-                    var pickUpMark = Instantiate(pickUpMarkPrefab, hit.collider.transform);
-                    var pickUpMarkPosition = pickUpMark.transform.position;
+                    var pickUpMark = Instantiate(pickUpMarkPrefab, hit.collider.transform, true);
+                    var pickUpMarkPosition = hit.collider.transform.position;
                     pickUpMark.transform.position
-                        = new Vector3(pickUpMarkPosition.x + 0.2f, pickUpMarkPosition.y + 0.2f, pickUpMarkPosition.z);
+                        = new Vector3(pickUpMarkPosition.x + 0.12f, pickUpMarkPosition.y + 0.12f, pickUpMarkPosition.z);
                     lootToPickUp.Add(item);
                     Debug.Log($"Items to pick up: {lootToPickUp.Count}");
                 }
