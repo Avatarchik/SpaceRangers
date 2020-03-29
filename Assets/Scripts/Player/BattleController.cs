@@ -71,6 +71,7 @@ namespace Player
                     var targetMarkPosition = targetMark.transform.position;
                     targetMark.transform.position = new Vector3(targetMarkPosition.x + 0.2f,
                         targetMarkPosition.y + 0.2f, 0);
+                    StartStopTargeting();
                     Debug.Log($"Selected target: {target}");
                 }
             }

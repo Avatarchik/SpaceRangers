@@ -2,12 +2,12 @@
 
 namespace Equipment
 {
-    public abstract class Item
+    public class Item
     {
         public int Weight { get; }
         public string Name { get; }
 
-        protected Item(string name, int weight)
+        public Item(string name, int weight)
         {
             Name = name;
             Weight = weight;

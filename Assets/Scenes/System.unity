@@ -2818,6 +2818,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 158016738, guid: 2e41b87ad18ad24479d132cb7233e949, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 534669904}
+    - target: {fileID: 158016738, guid: 2e41b87ad18ad24479d132cb7233e949, type: 3}
+      propertyPath: bottomPanelFreeSpaceText
+      value: 
+      objectReference: {fileID: 1140664247}
     - target: {fileID: 1661900505916837467, guid: 2e41b87ad18ad24479d132cb7233e949,
         type: 3}
       propertyPath: cam

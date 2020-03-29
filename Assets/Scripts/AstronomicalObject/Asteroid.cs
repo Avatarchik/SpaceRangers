@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Equipment;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -34,7 +35,8 @@ namespace AstronomicalObject
                 var randomMineralPrefab = mineralPrefabs[Random.Range(0, mineralPrefabs.Count)];
                 var mineralsObject =Instantiate(randomMineralPrefab, GetRandomPositionForMineral(), Quaternion.identity);
                 mineralsObject.name = "Minerals";
-                mineralsObject.GetComponent<Mineral>().Amount = mineralsAmount / mineralObjectsAmount;
+                mineralsObject.GetComponent<Mineral>().Content = 
+                    new Item("Minerals", mineralsAmount / mineralObjectsAmount);
             }
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName("ExplosionFinished"))
             {

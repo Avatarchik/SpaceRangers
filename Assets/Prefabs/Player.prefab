@@ -418,6 +418,7 @@ GameObject:
   - component: {fileID: 1661900505916837465}
   - component: {fileID: 1661900505916837467}
   - component: {fileID: 1661900505916837471}
+  - component: {fileID: 158016738}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -523,6 +524,22 @@ MonoBehaviour:
   target: {fileID: 1661900504998158986}
   damageTextPrefab: {fileID: 5758019646262886638, guid: 252fa17e9c962cc4c8de8608684ca836,
     type: 3}
+--- !u!114 &158016738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661900505916837469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e90673e56f4d72b9b7907a3a544ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 0}
+  pickUpMarkPrefab: {fileID: 7154737052412364663, guid: 5da90d464f70a49469dd9d25ed7d462c,
+    type: 3}
+  bottomPanelFreeSpaceText: {fileID: 0}
 --- !u!1001 &1661900505268792052
 PrefabInstance:
   m_ObjectHideFlags: 0
