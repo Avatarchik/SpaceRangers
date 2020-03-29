@@ -5,7 +5,9 @@ namespace Player
     public class PlayerPath : MonoBehaviour
     {
         [SerializeField] private GameObject target;
+        [SerializeField] private GameObject pathTextPrefab;
 
+        private GameObject pathText;
         private GameObject player;
         private GameManager gameManager;
         private PathBuilder pathBuilder;
@@ -24,6 +26,7 @@ namespace Player
         {
             if (gameManager.TurnInProgress)
             {
+                Destroy(pathText);
                 pathBuilder.DestroyAllDots();
                 redrawPath = true;
                 return;
@@ -36,6 +39,7 @@ namespace Player
 
             if (player.transform.position != target.transform.position && redrawPath)
             {
+                Destroy(pathText);
                 DrawPath();
             }
         }
@@ -48,6 +52,20 @@ namespace Player
             var oneTurnDistance = Helper.CalculateOneTurnDistance(playerPos, lastTargetPos, speed);
             pathBuilder.DrawDottedLine(playerPos, lastTargetPos, oneTurnDistance);
             redrawPath = false;
+
+            var textPosition = new Vector3(lastTargetPos.x, lastTargetPos.y + 0.3f, lastTargetPos.z);
+            pathText = Instantiate(pathTextPrefab, textPosition, Quaternion.identity, transform);
+            pathText.GetComponent<TextMesh>().text = GetPathInfoText(playerPos, oneTurnDistance);
+        }
+
+        private string GetPathInfoText(Vector3 playerPos, Vector3 oneTurnDistance)
+        {
+            var pathLength = Vector3.Distance(playerPos, lastTargetPos);
+            var oneTurnLength = Vector3.Distance(playerPos, oneTurnDistance);
+            var pathLengthInTurns = pathLength / oneTurnLength;
+            var intPathLengthInTurns = (int) (pathLengthInTurns > 1 ? pathLengthInTurns + 1 : pathLengthInTurns);
+            var pathLengthFriendly = (int) (pathLength * 100);
+            return $"{intPathLengthInTurns} ({pathLengthFriendly})";
         }
     }
 }
