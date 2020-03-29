@@ -10,6 +10,8 @@ public class CameraController : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
         player = GameObject.Find("Player").transform;
+        transform.position =
+            new Vector3(player.transform.position.x, player.transform.position.y, transform.position.z);
     }
 
     private void Update()
